@@ -1,1 +1,5 @@
-typer
+pandas
+polars
+pyarrow
+fastparquet
+scikit-learn
