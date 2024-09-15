@@ -26,9 +26,15 @@ def maybe_float(v):
         return v
 
 
+def maybe_float(v):
+    try:
+        return round(float(v), 3)
+    except ValueError:
+        return v
+
+
 def round_l(l: list):
     return [maybe_float(v) for v in l]
-
 
 def main(
     solution: str, in_n: int = 10_000, q_n: int = 50, comparison: str = "", seed=742
@@ -82,6 +88,7 @@ def main(
     if comparison:
         with o_p.open() as b_fp, Path(comparison).joinpath("out.csv").open() as c_fp:
             for (base_l, comp_l) in zip(*map(csv.reader, [b_fp, c_fp])):
+                assert round_l(base_l) == round_l(comp_l), f"{base_l}, {comp_l}"
                 assert round_l(base_l) == round_l(comp_l), f"{base_l}, {comp_l}"
     Path(f"{RUNDIR}/{time.time()}-{solution}").write_text(",".join(map(str, out)))
     print("\n\nsuccess!", f"solution: {solution}")
